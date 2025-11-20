@@ -1,0 +1,150 @@
+syntax = "proto3";
+
+package aiglasses.protocol;
+
+option java_package = "com.ai_glasses.shared.protocol";
+option java_multiple_files = true;
+
+import "enums.proto";
+
+// =======================
+//  Message Envelope
+// =======================
+
+// Mọi message đều gói trong Envelope để dễ route & log
+message Envelope {
+  string message_id   = 1;   // UUID hoặc chuỗi ngắn
+  int64  timestamp_ms = 2;   // epoch ms
+  DeviceType source   = 3;
+  DeviceType target   = 4;
+
+  EventType event_type = 5;
+
+  oneof payload {
+    VisionEvent      vision_event      = 10;
+    HazardAlert      hazard_alert      = 11;
+    NavigationUpdate navigation_update = 12;
+    SystemStatus     system_status     = 13;
+    SosEvent         sos_event         = 14;
+    TextToSpeak      tts               = 15;
+    LocationUpdate   location_update   = 16;
+    Heartbeat        heartbeat         = 17;
+    ConfigSyncRequest  config_request  = 18;
+    ConfigSyncResponse config_response = 19;
+  }
+}
+
+// =======================
+//  Vision & Hazard
+// =======================
+
+message VisionObject {
+  string label        = 1;   // "car", "person", "stairs"
+  float  confidence   = 2;   // 0..1
+  float  distance_m   = 3;   // khoảng cách ước lượng
+  float  angle_deg    = 4;   // 0..180 theo hệ global (camera kép)
+  bool   is_moving    = 5;   // đối tượng đang di chuyển
+  bool   is_danger    = 6;   // đã qua bộ danger_analyzer
+}
+
+message VisionEvent {
+  uint32 frame_id = 1;
+  repeated VisionObject objects = 2;
+}
+
+// Hazard đã được phân tích từ Vision + rules
+message HazardAlert {
+  HazardCode    code        = 1;
+  SeverityLevel severity    = 2;
+  string        title       = 3; // ví dụ: "Vật cản phía trước"
+  string        description = 4; // text mô tả, để app hiển thị
+  repeated VisionObject related_objects = 5;
+}
+
+// =======================
+//  Navigation
+// =======================
+
+message NavStep {
+  NavInstructionType instruction_type = 1;
+  double distance_m      = 2;  // khoảng cách đến bước này
+  string street_name     = 3;
+  double heading_deg     = 4;  // hướng cần quay về (0–360 độ la bàn)
+}
+
+message NavigationUpdate {
+  bool   active                = 1;
+  NavStep current_step         = 2;
+  uint32 remaining_steps       = 3;
+  double remaining_distance_m  = 4;
+  uint32 remaining_time_sec    = 5;
+}
+
+// =======================
+//  System Status / Health
+// =======================
+
+message BatteryStatus {
+  uint32           level_percent = 1;
+  BatteryLevelState state        = 2;
+  bool             charging      = 3;
+}
+
+message NetworkStatus {
+  NetworkType type             = 1;
+  int32       wifi_rssi        = 2;  // dBm, nếu không dùng wifi có thể = 0
+  bool        backend_connected = 3;
+}
+
+message SystemStatus {
+  PowerMode       power_mode     = 1;
+  ConnectionState connection     = 2;
+  BatteryStatus   battery        = 3;
+  NetworkStatus   network        = 4;
+  bool            offline_mode   = 5; // đang chạy offline-fail-safe
+}
+
+// =======================
+//  SOS / TTS / Config
+// =======================
+
+message SosEvent {
+  bool   active = 1;
+  string reason = 2;  // "button_long_press", "voice_command"
+  string note   = 3;  // thêm thông tin gửi cho người thân
+}
+
+message TextToSpeak {
+  string profile   = 1; // profile trong tts_profiles.yaml
+  string text      = 2;
+  bool   interrupt = 3; // có cắt câu đang đọc không
+}
+
+// Yêu cầu sync config từ mobile/backend về pi-core hoặc ngược lại
+message ConfigSyncRequest {
+  repeated string config_names = 1; // ["power_profiles", "danger_rules", ...]
+}
+
+// Trả về config dạng bytes (JSON/YAML nén, tuỳ implementation)
+message ConfigSyncResponse {
+  uint32 version = 1;
+  map<string, bytes> config_blobs = 2;
+}
+
+// =======================
+//  Location / Heartbeat
+// =======================
+
+message LocationUpdate {
+  double lat           = 1;
+  double lon           = 2;
+  float  accuracy_m    = 3;
+  float  speed_mps     = 4;
+  float  bearing_deg   = 5;
+  bool   from_mobile_gps = 6; // true nếu GPS từ điện thoại
+}
+
+message Heartbeat {
+  string session_id = 1;
+  uint32 seq        = 2;
+}

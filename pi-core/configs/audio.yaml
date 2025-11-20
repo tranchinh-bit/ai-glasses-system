@@ -1,0 +1,9 @@
+# Device audio và TTS
+device:
+  input_device: "default"
+  output_device: "default"
+
+tts:
+  default_profile: "standard_vn"
+  # nếu muốn ép dùng offline:
+  force_offline: false

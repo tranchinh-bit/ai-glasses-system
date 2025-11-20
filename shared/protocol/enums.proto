@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package aiglasses.protocol;
+
+option java_package = "com.ai_glasses.shared.protocol";
+option java_multiple_files = true;
+
+// Loại thiết bị trong hệ sinh thái
+enum DeviceType {
+  DEVICE_TYPE_UNSPECIFIED = 0;
+  DEVICE_TYPE_PI_CORE     = 1;
+  DEVICE_TYPE_USER_APP    = 2;
+  DEVICE_TYPE_FAMILY_APP  = 3;
+  DEVICE_TYPE_BACKEND     = 4;
+}
+
+// Trạng thái kết nối tổng quát
+enum ConnectionState {
+  CONNECTION_STATE_UNKNOWN   = 0;
+  CONNECTION_STATE_ONLINE    = 1;
+  CONNECTION_STATE_DEGRADED  = 2;
+  CONNECTION_STATE_OFFLINE   = 3;
+}
+
+// Chế độ nguồn / tiết kiệm pin
+enum PowerMode {
+  POWER_MODE_UNSPECIFIED = 0;
+  POWER_MODE_PERFORMANCE = 1;  // Ưu tiên tốc độ, dùng khi đang di chuyển ngoài đường
+  POWER_MODE_BALANCED    = 2;  // Mặc định
+  POWER_MODE_POWERSAVE   = 3;  // Tiết kiệm pin tối đa
+}
+
+// Mức độ nghiêm trọng của cảnh báo
+enum SeverityLevel {
+  SEVERITY_UNKNOWN = 0;
+  SEVERITY_INFO    = 1;
+  SEVERITY_WARNING = 2;
+  SEVERITY_DANGER  = 3;
+}
+
+// Trạng thái pin
+enum BatteryLevelState {
+  BATTERY_STATE_UNKNOWN  = 0;
+  BATTERY_STATE_HIGH     = 1; // > 70%
+  BATTERY_STATE_MEDIUM   = 2; // 40–70%
+  BATTERY_STATE_LOW      = 3; // 15–40%
+  BATTERY_STATE_CRITICAL = 4; // < 15%
+}
+
+// Loại mạng đang dùng
+enum NetworkType {
+  NETWORK_TYPE_UNKNOWN = 0;
+  NETWORK_TYPE_WIFI    = 1;
+  NETWORK_TYPE_HOTSPOT = 2;
+  NETWORK_TYPE_MOBILE  = 3; // nếu sau này kính có LTE
+  NETWORK_TYPE_OFFLINE = 4;
+}
+
+// Kiểu sự kiện gửi qua WebSocket / REST
+enum EventType {
+  EVENT_TYPE_UNKNOWN           = 0;
+  EVENT_TYPE_VISION_DETECTION  = 1;
+  EVENT_TYPE_HAZARD_ALERT      = 2;
+  EVENT_TYPE_NAVIGATION_UPDATE = 3;
+  EVENT_TYPE_SYSTEM_STATUS     = 4;
+  EVENT_TYPE_SOS               = 5;
+  EVENT_TYPE_TEXT_TO_SPEECH    = 6;
+  EVENT_TYPE_LOCATION_UPDATE   = 7;
+  EVENT_TYPE_HEARTBEAT         = 8;
+}
+
+// Hướng dẫn điều hướng chi tiết
+enum NavInstructionType {
+  NAV_INSTRUCTION_UNKNOWN     = 0;
+  NAV_INSTRUCTION_START       = 1;
+  NAV_INSTRUCTION_GO_STRAIGHT = 2;
+  NAV_INSTRUCTION_TURN_LEFT   = 3;
+  NAV_INSTRUCTION_TURN_RIGHT  = 4;
+  NAV_INSTRUCTION_UTURN       = 5;
+  NAV_INSTRUCTION_STAIRS_UP   = 6;
+  NAV_INSTRUCTION_STAIRS_DOWN = 7;
+  NAV_INSTRUCTION_ELEVATOR    = 8;
+  NAV_INSTRUCTION_CROSSWALK   = 9;
+  NAV_INSTRUCTION_DESTINATION = 10;
+}
+
+// Loại hazard/đối tượng nguy hiểm (mapping với danger_rules.yaml)
+enum HazardCode {
+  HAZARD_CODE_UNKNOWN         = 0;
+  HAZARD_CODE_VEHICLE_CLOSE   = 1;  // xe áp sát
+  HAZARD_CODE_OBSTACLE_FRONT  = 2;  // vật cản phía trước
+  HAZARD_CODE_HOLE_OR_STEP    = 3;  // hố/ bậc thềm
+  HAZARD_CODE_STAIRS          = 4;  // cầu thang
+  HAZARD_CODE_PERSON_APPROACH = 5;  // người tiến lại gần
+  HAZARD_CODE_TRAFFIC_LIGHT   = 6;  // đèn tín hiệu
+}

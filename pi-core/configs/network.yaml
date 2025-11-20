@@ -1,0 +1,9 @@
+# Endpoint WebSocket/REST để gửi nhận dữ liệu
+io_hub:
+  ws_url: "ws://192.168.1.100:9000/ws/pi"    # server trên mobile hoặc backend
+  reconnect_interval_sec: 5
+  max_reconnect_interval_sec: 60
+
+backend:
+  base_url: "http://192.168.1.100:8000"
+  timeout_sec: 5

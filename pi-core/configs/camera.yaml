@@ -1,0 +1,21 @@
+# Cấu hình camera kép
+left:
+  index: 0
+  width: 640
+  height: 480
+  fps: 10
+right:
+  index: 1
+  width: 640
+  height: 480
+  fps: 10
+
+# góc nhìn toàn cục 140° với margin 20° hai bên
+global_fov_deg: 140.0
+global_margin_deg: 20.0
+
+# dùng để ước lượng khoảng cách (sau này calib)
+depth_estimation:
+  enabled: true
+  baseline_cm: 6.0     # khoảng cách hai camera
+  focal_px: 420.0

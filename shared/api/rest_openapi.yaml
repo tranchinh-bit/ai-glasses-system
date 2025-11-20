@@ -1,0 +1,188 @@
+openapi: 3.0.3
+info:
+  title: AI Glasses REST API
+  version: "1.0.0"
+  description: |
+    REST API dùng chung cho mobile app và cloud backend:
+    - Cập nhật & lấy vị trí thiết bị
+    - Gửi & nhận cảnh báo
+    - Kiểm tra health
+
+servers:
+  - url: http://localhost:8000
+    description: Local development
+
+paths:
+  /api/v1/location/update:
+    post:
+      summary: Cập nhật vị trí hiện tại của kính
+      operationId: updateLocation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationUpdate'
+      responses:
+        '200':
+          description: Cập nhật thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+
+  /api/v1/location/latest:
+    get:
+      summary: Lấy vị trí mới nhất của một thiết bị
+      operationId: getLatestLocation
+      parameters:
+        - in: query
+          name: device_id
+          schema:
+            type: string
+          required: true
+          description: ID của kính hoặc mobile
+      responses:
+        '200':
+          description: Vị trí mới nhất
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationWithMeta'
+
+  /api/v1/alerts:
+    post:
+      summary: Gửi alert mới (từ kính lên backend hoặc từ backend xuống)
+      operationId: createAlert
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alert'
+      responses:
+        '200':
+          description: Tạo alert thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponse'
+    get:
+      summary: Lấy danh sách alert theo thiết bị
+      operationId: listAlerts
+      parameters:
+        - in: query
+          name: device_id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: Danh sách alert
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlertWithMeta'
+
+  /health:
+    get:
+      summary: Kiểm tra tình trạng server
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Server đang hoạt động
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+
+components:
+  schemas:
+    OkResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "ok"
+
+    LocationUpdate:
+      type: object
+      properties:
+        device_id:
+          type: string
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
+        accuracy_m:
+          type: number
+          format: float
+        speed_mps:
+          type: number
+          format: float
+        bearing_deg:
+          type: number
+          format: float
+        from_mobile_gps:
+          type: boolean
+      required: [device_id, lat, lon]
+
+    LocationWithMeta:
+      allOf:
+        - $ref: '#/components/schemas/LocationUpdate'
+        - type: object
+          properties:
+            updated_at:
+              type: string
+              format: date-time
+
+    Alert:
+      type: object
+      properties:
+        device_id:
+          type: string
+        hazard_code:
+          type: string
+          description: Giá trị string của HazardCode, ví dụ "HAZARD_CODE_VEHICLE_CLOSE"
+        severity:
+          type: string
+          description: Giá trị string của SeverityLevel
+        title:
+          type: string
+        message:
+          type: string
+        extra:
+          type: object
+          additionalProperties: true
+
+    AlertWithMeta:
+      allOf:
+        - $ref: '#/components/schemas/Alert'
+        - type: object
+          properties:
+            id:
+              type: integer
+            created_at:
+              type: string
+              format: date-time
+
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "ok"
+        uptime_sec:
+          type: integer
+        version:
+          type: string

@@ -1,0 +1,63 @@
+# Rules phân tích nguy hiểm từ kết quả vision + depth
+# Được dùng bởi vision_object_danger/danger_analyzer.cpp trên Pi-core.
+
+rules:
+  - id: "vehicle_close_front"
+    hazard_code: "HAZARD_CODE_VEHICLE_CLOSE"
+    object_labels: ["car", "bus", "truck", "motorbike"]
+    max_distance_m: 4.0
+    angle_range_deg: [60, 120]   # phía trước mặt
+    min_confidence: 0.5
+    severity: "SEVERITY_DANGER"
+    tts_profile: "fast_notify"
+    tts_template_vi: "Cẩn thận, có xe ở phía trước, cách khoảng {distance_m:.1f} mét."
+    cooldown_sec: 5
+
+  - id: "obstacle_front"
+    hazard_code: "HAZARD_CODE_OBSTACLE_FRONT"
+    object_labels: ["pole", "chair", "table", "obstacle", "wall"]
+    max_distance_m: 2.0
+    angle_range_deg: [70, 110]
+    min_confidence: 0.5
+    severity: "SEVERITY_WARNING"
+    tts_profile: "standard_vn"
+    tts_template_vi: "Phía trước có vật cản cách khoảng {distance_m:.1f} mét."
+    cooldown_sec: 5
+
+  - id: "hole_or_step"
+    hazard_code: "HAZARD_CODE_HOLE_OR_STEP"
+    object_labels: ["hole", "step_down"]
+    max_distance_m: 2.5
+    angle_range_deg: [70, 110]
+    min_confidence: 0.5
+    severity: "SEVERITY_DANGER"
+    tts_profile: "fast_notify"
+    tts_template_vi: "Chú ý, có bậc xuống hoặc hố phía trước."
+    cooldown_sec: 8
+
+  - id: "stairs_detected"
+    hazard_code: "HAZARD_CODE_STAIRS"
+    object_labels: ["stairs_up", "stairs_down"]
+    max_distance_m: 4.0
+    angle_range_deg: [60, 120]
+    min_confidence: 0.5
+    severity: "SEVERITY_INFO"
+    tts_profile: "standard_vn"
+    tts_template_vi: "Phía trước là cầu thang."
+    cooldown_sec: 10
+
+  - id: "person_close"
+    hazard_code: "HAZARD_CODE_PERSON_APPROACH"
+    object_labels: ["person"]
+    max_distance_m: 2.0
+    angle_range_deg: [40, 140]
+    min_confidence: 0.5
+    severity: "SEVERITY_INFO"
+    tts_profile: "standard_vn"
+    tts_template_vi: "Có người ở gần bên {direction}."
+    cooldown_sec: 7
+
+settings:
+  use_temporal_smoothing: true
+  smoothing_window_frames: 5
+  min_frame_span_for_hazard: 2

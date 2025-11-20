@@ -1,0 +1,44 @@
+# Power profiles cho AI Glasses
+# Dùng để Pi-core và mobile chọn cấu hình phù hợp hoàn cảnh.
+
+default_profile: balanced
+
+profiles:
+  performance:
+    description: "Ưu tiên tốc độ xử lý, dùng khi đang di chuyển ngoài đường."
+    cpu_governor: "performance"
+    camera_fps: 15
+    camera_resolution: "640x480"
+    vision_model: "yolov8n_fast.tflite"
+    enable_tracker: true
+    enable_denoise: true
+    max_cpu_usage_percent: 90
+    health_report_interval_sec: 15
+
+  balanced:
+    description: "Mặc định hàng ngày – cân bằng giữa pin và độ mượt."
+    cpu_governor: "ondemand"
+    camera_fps: 10
+    camera_resolution: "640x480"
+    vision_model: "yolov8n_int8.tflite"
+    enable_tracker: true
+    enable_denoise: true
+    max_cpu_usage_percent: 75
+    health_report_interval_sec: 30
+
+  powersave:
+    description: "Tiết kiệm pin tối đa, chỉ bật detect khi có sự kiện."
+    cpu_governor: "powersave"
+    camera_fps: 5
+    camera_resolution: "480x320"
+    vision_model: "yolov8n_int8_tiny.tflite"
+    enable_tracker: false
+    enable_denoise: true
+    max_cpu_usage_percent: 55
+    health_report_interval_sec: 60
+
+# Ngưỡng auto-switch giữa các profile theo pin
+auto_switch:
+  enable: true
+  to_powersave_below_percent: 25
+  to_balanced_above_percent: 40

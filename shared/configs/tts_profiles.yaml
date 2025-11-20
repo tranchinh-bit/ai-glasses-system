@@ -1,0 +1,80 @@
+# TTS Profiles Configuration – dùng chung cho Pi-core & mobile
+
+default_profile: "standard_vn"
+
+profiles:
+
+  standard_vn:
+    language: "vi-VN"
+    voice: "female_soft"
+    speed: 1.0
+    pitch: 1.0
+    volume: 1.0
+    engine: "edge_tts"
+    offline_fallback: true
+    description: "Giọng nữ chuẩn, dễ nghe – dùng cho thông báo chung."
+
+  fast_notify:
+    language: "vi-VN"
+    voice: "female_fast"
+    speed: 1.25
+    pitch: 1.0
+    volume: 1.0
+    engine: "edge_tts"
+    offline_fallback: true
+    description: "Dùng cho cảnh báo gấp: xe tới gần, hố, SOS."
+
+  male_clear:
+    language: "vi-VN"
+    voice: "male_clear"
+    speed: 1.0
+    pitch: 1.0
+    volume: 1.0
+    engine: "edge_tts"
+    offline_fallback: true
+    description: "Giọng nam rõ, phù hợp cho điều hướng."
+
+  whisper_mode:
+    language: "vi-VN"
+    voice: "female_soft"
+    speed: 0.9
+    pitch: 1.0
+    volume: 0.5
+    engine: "edge_tts"
+    offline_fallback: true
+    description: "Dùng ở môi trường yên tĩnh như bệnh viện, phòng ngủ."
+
+  english_standard:
+    language: "en-US"
+    voice: "en_us_male_1"
+    speed: 1.0
+    pitch: 1.0
+    volume: 1.0
+    engine: "edge_tts"
+    offline_fallback: true
+    description: "Dùng cho dịch tiếng Anh hoặc khách quốc tế."
+
+  chinese_cn:
+    language: "zh-CN"
+    voice: "zh_cn_female_1"
+    speed: 0.95
+    pitch: 1.0
+    volume: 1.0
+    engine: "edge_tts"
+    offline_fallback: true
+    description: "Hỗ trợ đọc/ dịch tiếng Trung giản thể."
+
+  offline_basic:
+    language: "vi-VN"
+    voice: "offline_female"
+    speed: 1.0
+    pitch: 1.0
+    volume: 1.0
+    engine: "piper"
+    offline_fallback: false
+    description: "Chế độ offline 100% khi mất mạng lâu."
+
+engine_priority:
+  - "edge_tts"
+  - "piper"
+  - "espeak"

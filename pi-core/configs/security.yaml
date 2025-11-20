@@ -1,0 +1,10 @@
+# Một số cờ bảo mật / safety
+security:
+  allow_remote_sos: true
+  allow_remote_config_update: true
+  log_personal_data: false
+
+# Hạn chế ghi lại audio dài
+audio:
+  max_record_seconds: 15
+  delete_after_upload: true

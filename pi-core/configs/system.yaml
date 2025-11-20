@@ -1,0 +1,11 @@
+device_id: "pi-glasses-001"
+device_type: "DEVICE_TYPE_PI_CORE"
+
+power_profile: "balanced"   # performance / balanced / powersave
+log_level: "INFO"           # DEBUG / INFO / WARNING / ERROR
+
+# chu kỳ gửi heartbeat lên backend/mobile
+heartbeat_interval_sec: 20
+
+# đường dẫn tới shared configs (để sync)
+shared_config_root: "../shared/configs"

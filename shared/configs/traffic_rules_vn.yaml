@@ -1,0 +1,43 @@
+# Bộ quy tắc nhận dạng biển báo giao thông Việt Nam
+# Mapping từ class model -> thông điệp đọc cho người dùng.
+
+traffic_signs:
+  - id: "vn_speed_limit_40"
+    class_name: "speed_40"
+    type: "speed_limit"
+    priority: 2
+    tts_template_vi: "Giới hạn tốc độ bốn mươi ki-lô-mét một giờ."
+    tts_template_en: "Speed limit forty kilometers per hour."
+
+  - id: "vn_speed_limit_60"
+    class_name: "speed_60"
+    type: "speed_limit"
+    priority: 2
+    tts_template_vi: "Giới hạn tốc độ sáu mươi ki-lô-mét một giờ."
+    tts_template_en: "Speed limit sixty kilometers per hour."
+
+  - id: "vn_no_entry"
+    class_name: "no_entry"
+    type: "prohibit"
+    priority: 3
+    tts_template_vi: "Phía trước có biển cấm vào, hãy cẩn thận."
+    tts_template_en: "No entry ahead, please be careful."
+
+  - id: "vn_pedestrian_crossing"
+    class_name: "pedestrian_crossing"
+    type: "warning"
+    priority: 2
+    tts_template_vi: "Phía trước là vạch qua đường, chú ý xe cộ."
+    tts_template_en: "Pedestrian crossing ahead, watch for vehicles."
+
+  - id: "vn_traffic_light"
+    class_name: "traffic_light"
+    type: "info"
+    priority: 2
+    tts_template_vi: "Phía trước là ngã tư có đèn tín hiệu giao thông."
+    tts_template_en: "Traffic lights ahead."
+
+# Cài đặt chung
+settings:
+  min_confidence: 0.6
+  min_time_between_announcements_sec: 15
