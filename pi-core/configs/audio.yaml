@@ -1,0 +1,21 @@
+# audio.yaml – cấu hình TTS và output audio
+
+output_device:
+  type: "alsa"
+  device_name: "default"
+
+volume:
+  master: 80        # 0-100
+  tts: 90
+  alerts: 100
+
+tts:
+  engine: "local"   # local / remote
+  profile: "vi_calm"  # khớp với tts_profiles.yaml
+  language: "vi-VN"
+
+alerts:
+  sound_enabled: true
+  voice_enabled: true
+  beep_frequency_hz: 1000
+  beep_duration_ms: 200

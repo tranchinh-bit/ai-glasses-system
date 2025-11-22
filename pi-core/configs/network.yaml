@@ -1,0 +1,18 @@
+# network.yaml – cấu hình WS tới phone và cloud
+
+phone:
+  # Nếu phone chạy WS server (ví dụ User App lắng nghe trên 8765)
+  ws_url: "ws://192.168.43.1:8765/api/v1/glasses"
+  connect_timeout_sec: 5
+  reconnect_base_delay_sec: 3
+  reconnect_max_delay_sec: 30
+
+cloud:
+  enabled: false
+  base_url: "https://api.your-cloud.com"
+  ws_url: "wss://api.your-cloud.com/ws/family"
+  api_key: ""
+
+offline:
+  # Sau bao lâu không nhận được heartbeat từ phone thì coi là offline
+  phone_heartbeat_timeout_sec: 10

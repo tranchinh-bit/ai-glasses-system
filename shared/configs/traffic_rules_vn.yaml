@@ -1,0 +1,44 @@
+# traffic_rules_vn.yaml
+# Một số biển báo / tình huống giao thông ưu tiên tại Việt Nam.
+
+signs:
+  - id: "P_102"
+    type: "no_entry"
+    label_vi: "Cấm đi ngược chiều"
+    description_vi: "Biển báo cấm tất cả phương tiện đi ngược chiều vào đường một chiều."
+    priority: "HIGH"
+    tts_template_vi: "Phía trước có biển cấm đi ngược chiều, hãy chú ý hướng di chuyển."
+
+  - id: "R_301"
+    type: "crosswalk"
+    label_vi: "Vạch qua đường cho người đi bộ"
+    description_vi: "Vị trí người đi bộ được phép qua đường."
+    priority: "MEDIUM"
+    tts_template_vi: "Phía trước có vạch qua đường, hãy chú ý xe cộ xung quanh."
+
+  - id: "W_201a"
+    type: "intersection"
+    label_vi: "Giao nhau với đường không ưu tiên"
+    description_vi: "Cảnh báo phía trước là giao lộ."
+    priority: "MEDIUM"
+    tts_template_vi: "Sắp tới ngã tư, hãy đi chậm lại."
+
+  - id: "W_207"
+    type: "bump"
+    label_vi: "Đường có gờ giảm tốc"
+    description_vi: "Cảnh báo có gờ giảm tốc, nên giảm tốc độ."
+    priority: "MEDIUM"
+    tts_template_vi: "Phía trước có gờ giảm tốc."
+
+  - id: "W_209"
+    type: "dangerous_descent"
+    label_vi: "Dốc xuống nguy hiểm"
+    description_vi: "Đường dốc xuống, cần chú ý khi di chuyển."
+    priority: "HIGH"
+    tts_template_vi: "Phía trước là đường dốc xuống, đi cẩn thận."
+
+# mapping một số nhãn vision -> luật
+label_to_sign_mapping:
+  "crosswalk": "R_301"
+  "speed_bump": "W_207"
+  "steep_descent": "W_209"

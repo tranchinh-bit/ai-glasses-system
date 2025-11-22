@@ -1,0 +1,14 @@
+# security.yaml – bảo mật kết nối
+
+auth:
+  shared_secret: "CHANGE_ME_TO_RANDOM_KEY"
+
+whitelist_phones:
+  - "phone-001"
+  - "phone-002"
+
+# Nếu muốn ký message sau này:
+signing:
+  enabled: false
+  algorithm: "HMAC-SHA256"
+  key: "CHANGE_ME_IF_ENABLED"

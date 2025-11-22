@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "ai-glasses-pi-core"
+version = "0.1.0"
+description = "AI Glasses core for Raspberry Pi Zero 2W"
+authors = ["Your Name <you@example.com>"]
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pyyaml = "*"
+protobuf = "*"
+websockets = "*"
+psutil = "*"
+numpy = "*"
+opencv-python-headless = "*"
+tflite-runtime = "*"
+loguru = "*"
+
+[tool.poetry.scripts]
+ai-glasses-core = "src.main:main"

@@ -1,0 +1,42 @@
+# tts_profiles.yaml
+# Cấu hình giọng đọc, tốc độ, ngôn ngữ.
+
+default_profile: "vi_calm"
+
+profiles:
+  vi_calm:
+    language: "vi-VN"
+    voice_id: "female_01"
+    speaking_rate: 1.0    # 1.0 = bình thường
+    pitch: 0.0            # 0 = normal
+    volume_gain_db: 0.0
+    description: "Giọng nữ tiếng Việt, tốc độ vừa, dễ nghe."
+
+  vi_fast:
+    language: "vi-VN"
+    voice_id: "female_01"
+    speaking_rate: 1.25
+    pitch: 0.0
+    volume_gain_db: 0.0
+    description: "Giọng nữ tiếng Việt, nhanh hơn, phù hợp khi cần cảnh báo nhanh."
+
+  en_standard:
+    language: "en-US"
+    voice_id: "en_male_01"
+    speaking_rate: 1.0
+    pitch: 0.0
+    volume_gain_db: 0.0
+    description: "Giọng nam tiếng Anh Mỹ."
+
+  zh_standard:
+    language: "zh-CN"
+    voice_id: "zh_female_01"
+    speaking_rate: 1.0
+    pitch: 0.0
+    volume_gain_db: 0.0
+    description: "Giọng nữ tiếng Trung phổ thông."
+
+# Map ngôn ngữ ưu tiên cho user
+user_language_preferences:
+  primary: "vi-VN"
+  secondary: ["en-US"]

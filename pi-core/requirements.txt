@@ -1,0 +1,18 @@
+
+---
+
+## 2. `requirements.txt`
+
+```text
+# Core Python deps cho Pi
+pyyaml
+protobuf
+websockets
+psutil
+numpy
+opencv-python-headless
+tflite-runtime
+loguru
+
+# Nếu cần sau:
+# sounddevice hoặc pyttsx3/edge-tts tuỳ TTS engine bạn chọn trên Pi

@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package aiglasses;
+
+// Tuỳ chọn cho Java/Android
+option java_package = "com.ai_glasses.proto";
+option java_multiple_files = true;
+
+// ====== ENUMS DÙNG CHUNG CHO PI + MOBILE + CLOUD ======
+
+enum OffloadMode {
+  OFFLOAD_AUTO  = 0;  // Tự động: ưu tiên PHONE, fallback LOCAL
+  OFFLOAD_LOCAL = 1;  // Chỉ xử lý vision trên Pi
+  OFFLOAD_PHONE = 2;  // Chỉ offload lên điện thoại
+}
+
+enum EventType {
+  EVENT_UNKNOWN           = 0;
+  EVENT_DANGER_ALERT      = 1;
+  EVENT_SOS               = 2;
+  EVENT_HEARTBEAT         = 3;
+  EVENT_NAVIGATION_UPDATE = 4;
+  EVENT_VOICE_COMMAND     = 5;
+  EVENT_LOCATION_UPDATE   = 6;
+}
+
+enum DangerLevel {
+  DANGER_NONE     = 0;
+  DANGER_LOW      = 1;
+  DANGER_MEDIUM   = 2;
+  DANGER_HIGH     = 3;
+  DANGER_CRITICAL = 4;
+}
+
+enum NetworkStatus {
+  NET_STATUS_UNKNOWN   = 0;
+  NET_STATUS_OFFLINE   = 1;  // Không có mạng
+  NET_STATUS_LOCAL_LAN = 2;  // Chỉ LAN / hotspot (Pi <-> phone)
+  NET_STATUS_ONLINE    = 3;  // Có Internet / cloud
+}
+
+enum PowerProfile {
+  POWER_PROFILE_LOW         = 0;
+  POWER_PROFILE_BALANCED    = 1;
+  POWER_PROFILE_PERFORMANCE = 2;
+}
+
+enum DeviceRole {
+  DEVICE_ROLE_UNKNOWN = 0;
+  DEVICE_ROLE_GLASSES = 1;
+  DEVICE_ROLE_PHONE   = 2;
+  DEVICE_ROLE_CLOUD   = 3;
+}
+
+enum LanguageCode {
+  LANG_UNKNOWN = 0;
+  LANG_VI_VN   = 1;
+  LANG_EN_US   = 2;
+  LANG_ZH_CN   = 3;
+}

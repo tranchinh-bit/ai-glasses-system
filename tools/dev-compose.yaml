@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ../cloud-backend
+      dockerfile: Dockerfile
+    container_name: aiglasses-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - AIGLASSES_DATABASE_URL=sqlite+aiosqlite:///./aiglasses.db
+    volumes:
+      # Hot-reload code khi dev
+      - ../cloud-backend/app:/app/app
+    restart: unless-stopped

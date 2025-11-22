@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual Env
+.venv/
+env/
+venv/
+
+# Logs
+*.log
+pi-core/data/logs/
+
+# Build output
+build/
+dist/
+
+# Raspberry Pi models
+pi-core/models/*.tflite
+pi-core/models/*.onnx
+
+# Android
+*.iml
+.gradle/
+local.properties
+/.idea/
+app/build/
+captures/
+
+# Node modules (phòng trường hợp dùng tool)
+node_modules/

@@ -1,0 +1,55 @@
+
+---
+
+## 4. `shared/configs/power_profiles.yaml`
+
+```yaml
+# power_profiles.yaml
+# Định nghĩa các profile pin và hành vi tương ứng.
+
+profiles:
+  LOW:
+    description: "Tiết kiệm pin tối đa. Chỉ giữ pipeline an toàn cơ bản."
+    max_camera_fps: 6
+    vision_input_size: 320           # 320x320
+    enable_vision_local: false       # tắt YOLO local, ưu tiên PHONE nếu có
+    enable_face_recognition: false
+    enable_navigation_client: false
+    enable_cloud_sync: false
+    enable_health_monitor: true
+    enable_voice_dialog: false
+    safety_minimal_mode: true        # luôn giữ obstacle detection tối thiểu
+
+  BALANCED:
+    description: "Cân bằng hiệu năng và pin. Dùng cho đa số trường hợp."
+    max_camera_fps: 10
+    vision_input_size: 320
+    enable_vision_local: true
+    enable_face_recognition: true
+    enable_navigation_client: true
+    enable_cloud_sync: true
+    enable_health_monitor: true
+    enable_voice_dialog: true
+    safety_minimal_mode: true
+
+  PERFORMANCE:
+    description: "Hiệu năng cao nhất, dùng khi cần nhận diện nhiều."
+    max_camera_fps: 15
+    vision_input_size: 416
+    enable_vision_local: true
+    enable_face_recognition: true
+    enable_navigation_client: true
+    enable_cloud_sync: true
+    enable_health_monitor: true
+    enable_voice_dialog: true
+    safety_minimal_mode: true
+
+# Ngưỡng chuyển profile theo pin (%)
+battery_thresholds:
+  to_low: 20          # nếu pin < 20% -> ép về LOW
+  to_balanced: 40     # nếu pin > 40% mà đang LOW -> có thể lên BALANCED
+
+# Ngưỡng nhiệt độ CPU (°C)
+temperature_thresholds:
+  high: 75            # nếu >75°C -> giảm FPS, tắt bớt module nặng
+  critical: 85        # nếu >85°C -> chỉ giữ pipeline tối thiểu

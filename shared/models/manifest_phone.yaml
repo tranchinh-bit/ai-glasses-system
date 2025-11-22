@@ -1,0 +1,34 @@
+# manifest_phone.yaml
+# Các model nặng hơn dùng trên điện thoại.
+
+models:
+  - id: "yolo_v8s_fp16"
+    file: "models/yolo_v8s_fp16.tflite"
+    task: "object_detection"
+    framework: "tflite"
+    quantization: "fp16"
+    input_size: [640, 640]
+    description: "YOLOv8s FP16, chạy trên GPU/NNAPI điện thoại."
+    recommended_devices: ["mid_range", "high_end"]
+    download_url: ""
+
+  - id: "ocr_latin"
+    file: "models/ocr_latin.tflite"
+    task: "ocr"
+    framework: "tflite"
+    quantization: "int8"
+    description: "OCR chữ Latin cho biển báo, menu, văn bản đơn giản."
+    download_url: ""
+
+  - id: "asr_vi"
+    file: "models/asr_vi.tflite"
+    task: "asr"
+    framework: "tflite"
+    quantization: "int8"
+    description: "ASR tiếng Việt, dùng cho voice command."
+    download_url: ""
+
+settings:
+  default_detection_model: "yolo_v8s_fp16"
+  default_ocr_model: "ocr_latin"
+  default_asr_model: "asr_vi"

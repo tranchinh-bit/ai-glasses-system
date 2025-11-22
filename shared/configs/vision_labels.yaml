@@ -1,0 +1,98 @@
+# vision_labels.yaml
+# Bảng nhãn dùng chung: id, tên, nhóm.
+
+classes:
+  - id: 0
+    name: "person"
+    group: "human"
+    description_vi: "Người đi bộ"
+    priority: "HIGH"
+
+  - id: 1
+    name: "bicycle"
+    group: "vehicle_light"
+    description_vi: "Xe đạp"
+    priority: "MEDIUM"
+
+  - id: 2
+    name: "motorbike"
+    group: "vehicle_motor"
+    description_vi: "Xe máy"
+    priority: "HIGH"
+
+  - id: 3
+    name: "car"
+    group: "vehicle_motor"
+    description_vi: "Ô tô con"
+    priority: "HIGH"
+
+  - id: 4
+    name: "bus"
+    group: "vehicle_heavy"
+    description_vi: "Xe buýt"
+    priority: "HIGH"
+
+  - id: 5
+    name: "truck"
+    group: "vehicle_heavy"
+    description_vi: "Xe tải"
+    priority: "HIGH"
+
+  - id: 6
+    name: "traffic_light"
+    group: "traffic_sign"
+    description_vi: "Đèn tín hiệu giao thông"
+    priority: "MEDIUM"
+
+  - id: 7
+    name: "crosswalk"
+    group: "road_mark"
+    description_vi: "Vạch qua đường"
+    priority: "MEDIUM"
+
+  - id: 8
+    name: "hole"
+    group: "ground_hazard"
+    description_vi: "Hố / ổ gà"
+    priority: "HIGH"
+
+  - id: 9
+    name: "stairs_up"
+    group: "infrastructure"
+    description_vi: "Cầu thang đi lên"
+    priority: "MEDIUM"
+
+  - id: 10
+    name: "stairs_down"
+    group: "infrastructure"
+    description_vi: "Cầu thang đi xuống"
+    priority: "HIGH"
+
+  - id: 11
+    name: "door"
+    group: "infrastructure"
+    description_vi: "Cửa ra vào"
+    priority: "LOW"
+
+  - id: 12
+    name: "speed_bump"
+    group: "ground_hazard"
+    description_vi: "Gờ giảm tốc"
+    priority: "MEDIUM"
+
+# Nhóm tiện ích
+groups:
+  human:
+    description: "Người, người đi bộ"
+  vehicle_light:
+    description: "Xe hai bánh, nhẹ"
+  vehicle_motor:
+    description: "Xe có động cơ, nguy hiểm vừa"
+  vehicle_heavy:
+    description: "Xe tải, xe buýt, nguy hiểm cao"
+  traffic_sign:
+    description: "Biển báo, đèn giao thông"
+  ground_hazard:
+    description: "Các nguy cơ trên mặt đất (ổ gà, gờ, hố...)"
+  infrastructure:
+    description: "Cầu thang, cửa, v.v."

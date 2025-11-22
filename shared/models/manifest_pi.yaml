@@ -1,0 +1,39 @@
+# manifest_pi.yaml
+# Các model nhẹ dùng trên Raspberry Pi Zero 2W.
+
+models:
+  - id: "yolo_v8n_int8"
+    file: "models/yolo_v8n_int8.tflite"
+    task: "object_detection"
+    framework: "tflite"
+    quantization: "int8"
+    input_size: [320, 320]
+    min_power_profile: "LOW"           # dùng được cả LOW
+    description: "YOLOv8n quantized INT8, tối ưu cho Pi Zero 2W."
+    download_url: ""                   # (tùy bạn điền)
+
+  - id: "depth_lite"
+    file: "models/depth_lite.tflite"
+    task: "depth_estimation"
+    framework: "tflite"
+    quantization: "fp16"
+    input_size: [160, 120]
+    min_power_profile: "BALANCED"
+    description: "Model depth đơn giản cho ước lượng 3 mức: NEAR/MID/FAR."
+    download_url: ""
+
+  - id: "face_recognition"
+    file: "models/face_recognition.onnx"
+    task: "face_embedding"
+    framework: "onnx"
+    quantization: "fp32"
+    input_size: [112, 112]
+    min_power_profile: "BALANCED"
+    description: "Model embedding khuôn mặt để so sánh người quen."
+    download_url: ""
+
+settings:
+  # Tùy chọn cho engine
+  default_detection_model: "yolo_v8n_int8"
+  default_depth_model: "depth_lite"
+  default_face_model: "face_recognition"

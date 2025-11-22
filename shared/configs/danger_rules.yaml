@@ -1,0 +1,75 @@
+# danger_rules.yaml
+# Các rule phân loại nguy hiểm dựa trên object, khoảng cách, vận tốc, hướng...
+
+rules:
+  - id: "car_approaching_front"
+    enabled: true
+    match:
+      classes: ["car", "motorbike", "bus", "truck"]
+      direction: "front"          # front / left / right / back / any
+      distance_max_m: 7.0
+      velocity_min_mps: 0.5
+    level: "CRITICAL"
+    tts_template_vi: "Xe đang lao tới phía trước, hãy dừng lại!"
+    tts_template_en: "A vehicle is rushing towards you. Please stop!"
+    min_repeat_interval_ms: 4000   # không đọc quá dày
+
+  - id: "obstacle_near_front"
+    enabled: true
+    match:
+      classes: ["person", "bicycle", "bench", "pole", "barrier"]
+      direction: "front"
+      distance_max_m: 1.5
+    level: "HIGH"
+    tts_template_vi: "Phía trước có vật cản gần."
+    tts_template_en: "There is an obstacle in front of you."
+    min_repeat_interval_ms: 3000
+
+  - id: "hole_on_ground"
+    enabled: true
+    match:
+      classes: ["hole", "pothole"]
+      direction: "front"
+      distance_max_m: 2.0
+    level: "HIGH"
+    tts_template_vi: "Cẩn thận, có ổ gà phía trước."
+    tts_template_en: "Be careful, there is a hole ahead."
+    min_repeat_interval_ms: 4000
+
+  - id: "crosswalk_detected"
+    enabled: true
+    match:
+      classes: ["crosswalk"]
+      direction: "front"
+      distance_max_m: 10.0
+    level: "MEDIUM"
+    tts_template_vi: "Phía trước có vạch qua đường."
+    tts_template_en: "There is a crosswalk ahead."
+    min_repeat_interval_ms: 8000
+
+  - id: "stairs_up_ahead"
+    enabled: true
+    match:
+      classes: ["stairs_up"]
+      direction: "front"
+      distance_max_m: 3.0
+    level: "MEDIUM"
+    tts_template_vi: "Sắp tới cầu thang đi lên."
+    tts_template_en: "Stairs going up ahead."
+    min_repeat_interval_ms: 8000
+
+  - id: "stairs_down_ahead"
+    enabled: true
+    match:
+      classes: ["stairs_down"]
+      direction: "front"
+      distance_max_m: 3.0
+    level: "HIGH"
+    tts_template_vi: "Sắp tới cầu thang đi xuống, đi cẩn thận."
+    tts_template_en: "Stairs going down ahead, please be careful."
+    min_repeat_interval_ms: 8000
+
+# Các tham số chung cho analyzer
+global:
+  min_alert_interval_ms: 1500      # khoảng cách tối thiểu giữa 2 alert bất kỳ
+  merge_window_ms: 800             # gom các detection gần nhau thành 1

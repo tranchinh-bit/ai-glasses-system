@@ -1,0 +1,17 @@
+device_id: "glasses-001"
+role: "GLASSES"
+
+offload_mode: "AUTO"      # AUTO / LOCAL / PHONE
+default_power_profile: "BALANCED"
+
+features:
+  vision_local: true
+  face_recognition: true
+  familiar_places: true
+  navigation_client: true
+  voice_dialog: true
+  ir_input: true
+  cloud_backend: false
+
+safety_minimal_mode:
+  enable: true

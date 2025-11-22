@@ -1,0 +1,47 @@
+# camera.yaml – cấu hình 1 camera FOV rộng ~140° cho Pi Zero 2W
+
+resolution:
+  width: 640        # 640x480 đủ cho YOLO nhỏ, nhẹ CPU/GPU
+  height: 480
+
+# FPS: 10–12 là sweet-spot cho Pi Zero 2W (đủ mượt, không quá nặng)
+fps: 10
+
+single_camera:
+  enabled: true
+  camera_id: 0      # thường là 0, nếu không thấy thì thử 1
+  fov_deg: 140      # FOV thực tế của lens (xài để tính góc đọc cho user)
+
+# Tắt dual camera hoàn toàn (để code sau này không nhầm chế độ)
+dual_camera:
+  enabled: false
+  left_camera_id: 0
+  right_camera_id: 1
+  global_fov_deg: 140
+  hidden_margin_deg: 0    # không dùng nữa nhưng giữ field cho khỏi lỗi parse
+
+exposure:
+  auto: true              # để libcamera tự auto exposure
+  exposure_time_us: 0     # 0 = auto, Pi tự chọn
+  gain: 0                 # 0 = auto
+  metering: "centre-weighted"   # đo sáng trọng tâm, phù hợp cảnh trước mặt
+  flicker_hz: 50          # VN dùng 50Hz, giảm nhấp nháy đèn
+
+white_balance:
+  auto: true
+  mode: "auto"            # có thể đổi "daylight"/"cloudy" nếu cần
+
+image_tuning:
+  denoise_level: 1        # 0 = tắt, 1 = nhẹ, 2 = mạnh (tạo cảm giác mượt hơn)
+  sharpen: 0.2            # sharpen nhẹ cho rõ vật thể
+  contrast: 0.1
+  brightness: 0.0
+  saturation: 0.0
+
+stabilization:
+  temporal_smoothing: true        # bật làm mượt kết quả detection theo thời gian
+  smooth_window_frames: 3         # lấy trung bình ~3 frame
+
+debug:
+  show_preview: false     # Pi Zero 2W: tắt preview HDMI/VNC để đỡ lag
+  overlay_fps: false      # nếu cần debug thì bật lên

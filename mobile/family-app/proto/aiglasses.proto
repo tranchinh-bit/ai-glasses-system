@@ -1,0 +1,205 @@
+syntax = "proto3";
+
+package aiglasses;
+
+// Tuỳ chọn cho Java/Android
+option java_package = "com.ai_glasses.proto";
+option java_multiple_files = true;
+
+// ====== ENUMS DÙNG CHUNG CHO PI + MOBILE + CLOUD ======
+
+enum OffloadMode {
+  OFFLOAD_AUTO  = 0;  // Tự động: ưu tiên PHONE, fallback LOCAL
+  OFFLOAD_LOCAL = 1;  // Chỉ xử lý vision trên Pi
+  OFFLOAD_PHONE = 2;  // Chỉ offload lên điện thoại
+}
+
+enum EventType {
+  EVENT_UNKNOWN           = 0;
+  EVENT_DANGER_ALERT      = 1;
+  EVENT_SOS               = 2;
+  EVENT_HEARTBEAT         = 3;
+  EVENT_NAVIGATION_UPDATE = 4;
+  EVENT_VOICE_COMMAND     = 5;
+  EVENT_LOCATION_UPDATE   = 6;
+}
+
+enum DangerLevel {
+  DANGER_NONE     = 0;
+  DANGER_LOW      = 1;
+  DANGER_MEDIUM   = 2;
+  DANGER_HIGH     = 3;
+  DANGER_CRITICAL = 4;
+}
+
+enum NetworkStatus {
+  NET_STATUS_UNKNOWN   = 0;
+  NET_STATUS_OFFLINE   = 1;  // Không có mạng
+  NET_STATUS_LOCAL_LAN = 2;  // Chỉ LAN / hotspot (Pi <-> phone)
+  NET_STATUS_ONLINE    = 3;  // Có Internet / cloud
+}
+
+enum PowerProfile {
+  POWER_PROFILE_LOW         = 0;
+  POWER_PROFILE_BALANCED    = 1;
+  POWER_PROFILE_PERFORMANCE = 2;
+}
+
+enum DeviceRole {
+  DEVICE_ROLE_UNKNOWN = 0;
+  DEVICE_ROLE_GLASSES = 1;
+  DEVICE_ROLE_PHONE   = 2;
+  DEVICE_ROLE_CLOUD   = 3;
+}
+
+enum LanguageCode {
+  LANG_UNKNOWN = 0;
+  LANG_VI_VN   = 1;
+  LANG_EN_US   = 2;
+  LANG_ZH_CN   = 3;
+}
+syntax = "proto3";
+
+package aiglasses;
+
+option java_package = "com.ai_glasses.proto";
+option java_multiple_files = true;
+
+import "enums.proto";
+
+// ====== CÁC MESSAGE DÙNG CHO WS / CLOUD / PI / MOBILE ======
+
+// ---- Thông tin thiết bị ----
+message DeviceInfo {
+  string device_id   = 1;
+  DeviceRole role    = 2;
+  string model       = 3;  // ví dụ: "Raspberry Pi Zero 2W", "Pixel 7"
+  string fw_version  = 4;  // version firmware / app
+  string hw_revision = 5;  // revision phần cứng (optional)
+}
+
+// ---- Vision Frame từ Pi gửi lên Phone ----
+message VisionFrame {
+  string device_id   = 1;
+  int64 timestamp_ms = 2;
+  bytes jpeg_data    = 3;
+  int32 width        = 4;
+  int32 height       = 5;
+  // Optional: có thể thêm depth map sau này
+}
+
+// ---- Detection Result từ Phone gửi về Pi ----
+message DetectionItem {
+  int32 class_id     = 1;
+  string label       = 2;
+  float confidence   = 3;
+  float x_center     = 4;  // normalized [0,1]
+  float y_center     = 5;  // normalized [0,1]
+  float width        = 6;  // normalized [0,1]
+  float height       = 7;  // normalized [0,1]
+  float distance_m   = 8;  // ước lượng khoảng cách (nếu có)
+  float velocity_mps = 9;  // ước lượng vận tốc (nếu có)
+  string track_id    = 10; // ID để tracker dùng (nếu có)
+}
+
+message DetectionResult {
+  string device_id   = 1;
+  int64 timestamp_ms = 2;
+  repeated DetectionItem items = 3;
+}
+
+// ---- Danger Alert ----
+message DangerAlert {
+  string device_id   = 1;
+  int64 timestamp_ms = 2;
+  DangerLevel level  = 3;
+  string rule_id     = 4;
+  string short_msg   = 5;  // ví dụ: "Xe lao tới phía trước"
+  string tts_msg     = 6;  // câu TTS đầy đủ (ngôn ngữ theo profile)
+}
+
+// ---- Health / Heartbeat ----
+message HealthStatus {
+  string device_id    = 1;
+  int64 timestamp_ms  = 2;
+  float cpu_usage     = 3;
+  float mem_usage     = 4;
+  float temperature_c = 5;
+  float battery_percent = 6;
+  OffloadMode current_mode   = 7;
+  PowerProfile power_profile = 8;
+  NetworkStatus network_status = 9;
+  bool safety_pipeline_active = 10;
+}
+
+// ---- Location & Navigation ----
+message LocationPoint {
+  string device_id   = 1;
+  int64 timestamp_ms = 2;
+  double lat         = 3;
+  double lon         = 4;
+  float accuracy_m   = 5;
+}
+
+message NavCommand {
+  string device_id      = 1;
+  string target_place_id = 2;  // id familiar place
+  double target_lat     = 3;
+  double target_lon     = 4;
+  string note           = 5;
+}
+
+message NavUpdate {
+  string device_id      = 1;
+  int64 timestamp_ms    = 2;
+  double current_lat    = 3;
+  double current_lon    = 4;
+  string instruction_tts = 5;
+  bool arrived          = 6;
+}
+
+// ---- Voice / SOS ----
+message VoiceCommand {
+  string device_id   = 1;
+  int64 timestamp_ms = 2;
+  string text        = 3;  // câu lệnh sau khi ASR
+  LanguageCode lang  = 4;
+}
+
+message SosEvent {
+  string device_id   = 1;
+  int64 timestamp_ms = 2;
+  string reason      = 3;  // "button_press", "voice_command", ...
+  string note        = 4;
+}
+
+// ---- Cấu hình đơn giản từ app gửi xuống Pi ----
+message ConfigUpdate {
+  string device_id        = 1;
+  OffloadMode offload_mode = 2;
+  PowerProfile power_profile = 3;
+  // Có thể dùng JSON hoặc key-value cho các config nhỏ
+  map<string, string> extras = 10;
+}
+
+// ---- Envelope cho WebSocket ----
+message WsEnvelope {
+  string msg_id      = 1;  // UUID
+  string device_id   = 2;
+  int64 timestamp_ms = 3;
+  EventType type     = 4;
+
+  oneof payload {
+    DeviceInfo device_info       = 10;
+    VisionFrame vision_frame     = 11;
+    DetectionResult detection_result = 12;
+    DangerAlert danger_alert     = 13;
+    HealthStatus health_status   = 14;
+    LocationPoint location_point = 15;
+    NavCommand nav_command       = 16;
+    NavUpdate nav_update         = 17;
+    VoiceCommand voice_command   = 18;
+    SosEvent sos_event           = 19;
+    ConfigUpdate config_update   = 20;
+  }
+}
