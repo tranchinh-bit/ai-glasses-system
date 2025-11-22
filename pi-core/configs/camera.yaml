@@ -10,7 +10,7 @@ fps: 10
 single_camera:
   enabled: true
   camera_id: 0      # thường là 0, nếu không thấy thì thử 1
-  fov_deg: 140      # FOV thực tế của lens (xài để tính góc đọc cho user)
+  fov_deg: 130      # FOV thực tế của lens (xài để tính góc đọc cho user)
 
 # Tắt dual camera hoàn toàn (để code sau này không nhầm chế độ)
 dual_camera:
